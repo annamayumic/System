@@ -1,0 +1,24 @@
+<%- include('../../views/partials/head.ejs') %>
+<div class="container"><br>
+  <a href="/admin/" class="btn btn-dark"> Back to menu</a> 
+  <a href="/admin/products/new" class="btn btn-dark"> Criar novo Produto</a>
+</div><br><br>
+<div class="container text-center">
+  <h2 class="">Produtos:</h2><hr>
+  <div class="container flex row">
+    <% products.forEach(product=>{ %>
+      <div class="card mx-3 <%= product.status === false ? 'bg-light': ''%>" style="width: 18rem;">
+        <div class="card-header">
+          <h4><%= product.title %></h4>
+        </div>
+        <div class="card-body">
+          <img class="card-img-top <%= product.status === false ? 'opacity-25': ''%>" src="<%=product.image%>" alt="" width="100%">
+        </div>
+        <div class="card-footer">
+          <h4>R$ <%= product.price %></h4>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+<%- include('../../views/partials/foot.ejs') %>

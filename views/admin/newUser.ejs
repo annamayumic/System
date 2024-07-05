@@ -1,0 +1,20 @@
+<%- include('../../views/partials/head.ejs') %>
+<div class="container"><br>
+  <a href="/admin" class="btn btn-dark"> Back to menu</a><br>
+  <br>
+  <div class="card" style="width: 35rem;">
+    <div class="card-header"><h3>Create new User</h3></div>
+
+    <form action="/admin/createUser" method="post" class="form-control">
+      <div class="card-body">
+        <label for="title">Password:</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="*******" value="123" readonly><br>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-success">Create</button>
+      </div>
+    </form>
+  </div> 
+</div>
+<%- include('../../views/partials/foot.ejs') %>
+

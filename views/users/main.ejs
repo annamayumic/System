@@ -1,0 +1,64 @@
+<%- include('../../views/partials/head.ejs') %>
+
+<div class="container">
+  <h3 class="text-center">Mesa: <%= id %></h3><hr><br>
+  <div class="container row flex flex-wrap">
+    <% products.forEach(prod=>{ if(prod.status === true){%>
+      <div class="card mx-3" style="width: 18rem;">
+        <div class="card-header">
+          <h4><%= prod.title %></h4>
+        </div>
+        <div class="card-body">
+          <img class="card-img-top" src="<%=prod.image%>" alt="" width="100%">
+        </div>
+        <div class="card-footer">
+          <h4 class="">R$ <%= prod.price %></h4>
+          <button class="btn btn-outline-dark" value="<%= prod.id %>"  onclick="Clicked(this.value)">Add</button>
+        </div>
+      </div>
+    <%}})  %>
+  </div>
+  <div class="container">
+    <form>
+      <button type="submit" id="order" value="<%= id %>" onclick="Order(this.value)">Order</button>
+    </form>
+  </div>
+  
+</div>
+
+<%- include('../../views/partials/foot.ejs') %>
+<script>
+  let currentOrder = [];
+  let order = document.getElementById('order');
+  function Clicked(productId){
+    currentOrder.push(productId)
+    console.log(productId)
+
+  //let makeOrder = currentOrder.values()
+  //  order.setAttribute('value', makeOrder)
+  }
+
+  function Order(id){
+    fetch('/user/newOrder/'+id, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ array: currentOrder }),
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Erro ao enviar o Array para o servidor');
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log('Resposta do servidor:', data);
+      })
+      .catch(error => {
+          console.error('Erro:', error);
+    });
+  }
+  
+  
+</script>
