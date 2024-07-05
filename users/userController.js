@@ -16,11 +16,22 @@ router.post('/user/newOrder/:id', (req,res)=>{
   var OrderList = req.body.array;
 
   OrderList.forEach(order => {
+    Produtos.findOne({
+      where:{
+        id: order
+      }
+    }).then(()=>{
+      Pedidos.create({
+        status:"preparing",
+        UserId:userId,
+        ProdutoId: order
+      })
+
+      res.redirect('/user/:id')
+    }).catch(err=>res.send(err))
     // find Id do produto na lista produtos e puxar o objeto.
     // colocar o UserId na tabela do pedido
   });
-
-  console.log("array recebido ", OrderList, userId)
 })
 
 module.exports = router;
