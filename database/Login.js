@@ -12,5 +12,5 @@ var Login = connection.define('Login', {
   }
 });
 
-Login.sync({force:false})
+//Login.sync({force:false})
 module.exports = Login;

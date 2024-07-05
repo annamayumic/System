@@ -17,6 +17,6 @@ Users.hasMany(Pedidos);
 
 Pedidos.belongsTo(Produtos)
 
-Pedidos.sync({force: true})
+//Pedidos.sync({force: true})
 module.exports = Pedidos;
 
