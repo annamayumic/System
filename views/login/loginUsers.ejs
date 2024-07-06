@@ -1,0 +1,21 @@
+<%- include('../../views/partials/head.ejs') %>
+
+<div class="container">
+  <br>
+  <a href="/" class="btn btn-dark">Back</a>
+  <br><br>
+  <h3>Users Login</h3><hr>
+  <div class="card" style="width: 30rem;">
+    <div class="card-body">
+      <form action="/users/signIn" method="post">
+        <label for="id" class="form-label">Id:</label>
+        <input type="text" name="id" placeholder="UserId" class="form-control">
+        <label for="password" class="form-label">password:</label>
+        <input type="password" name="password" class="form-control" placeholder="*********">
+        <br><button class="btn btn-dark">sign in</button><br>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../../views/partials/foot.ejs') %>

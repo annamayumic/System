@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <th>mesa</th>
+      <th>produto</th>
+    </tr>
+  </thead>
+  <tbody>
+   <% pedidos.forEach(element => {%>
+    <tr>
+      <td><%= element.UserId %></td>
+      <td><%= element.ProdutoId %></td>
+    </tr>
+    <%}); %>
+  </tbody>
+</table>

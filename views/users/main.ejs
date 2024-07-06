@@ -19,6 +19,11 @@
     <%}})  %>
   </div>
   <div class="container">
+    <div>
+      <h3>Cart</h3>
+      <ul id="cart"></ul>
+    </div>
+    <br><br>
     <form>
       <button type="submit" id="order" value="<%= id %>" onclick="Order(this.value)">Order</button>
     </form>
@@ -30,13 +35,23 @@
 <script>
   let currentOrder = [];
   let order = document.getElementById('order');
+  const ul = document.getElementById('cart')
+
+
   function Clicked(productId){
     currentOrder.push(productId)
-    console.log(productId)
+    var li = document.createElement('li');
+    li.setAttribute('name', 'id');
+    li.setAttribute('id', productId)
+    li.innerHTML=`${productId}`
+    ul.appendChild(li)
+    console.log(currentOrder)
+    }
 
   //let makeOrder = currentOrder.values()
   //  order.setAttribute('value', makeOrder)
-  }
+  
+
 
   function Order(id){
     fetch('/user/newOrder/'+id, {

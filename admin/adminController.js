@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Produtos = require('../database/Produtos');
 const Users = require('../users/Users');
+const Pedidos = require('../database/Pedidos')
 
 router.get('/admin', (req,res)=>{
 
@@ -77,6 +78,19 @@ router.post('/admin/userDelete', (req,res)=>{
     res.redirect('/admin')
   }
   
+})
+
+router.get('/admin/cashier', (req, res)=>{
+  Pedidos.findAll().then((pedidos)=>{
+    res.render('admin/cashier', {pedidos:pedidos})
+  })
+})
+
+
+router.get('/kitchen', (req, res)=>{
+  Pedidos.findAll().then((pedidos)=>{
+    res.render('kitchen/main', {pedidos:pedidos})
+  })
 })
 
 module.exports = router;

@@ -27,7 +27,31 @@ app.use('/', userController)
 
 
 app.get('/', (req,res)=>{
-  res.send("enviado")
+  res.render('login/login')
+})
+
+
+
+app.post('/login', (req,res)=>{
+  var name = req.body.name;
+  var password = req.body.password
+
+  if(name === 'admin'){
+    if(password==='admin'){
+      res.redirect('/admin')
+    }else{
+      res.redirect('/')
+    }
+  }else if(name === 'Kitchen'){
+    if(password==='kitchen'){
+      res.redirect('/kitchen')
+    }else{
+      res.redirect('/')
+    }
+  }else{
+    res.redirect('/')
+  }
+
 })
 
 app.listen(9876, ()=>{
