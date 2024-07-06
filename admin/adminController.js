@@ -57,4 +57,26 @@ router.post('/admin/createUser', (req,res)=>{
     res.send(err)
   })
 })
+
+router.post('/admin/userDelete', (req,res)=>{
+  var id = req.body.id;
+  console.log(id)
+  if(id!=undefined){
+    if(!isNaN(id)){
+      Users.destroy({
+        where:{
+          id:id
+        }
+      }).then(()=>{
+        res.redirect('/admin')
+      })
+    }else{
+      res.redirect('/admin')
+    }
+  }else{
+    res.redirect('/admin')
+  }
+  
+})
+
 module.exports = router;
