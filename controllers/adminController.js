@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Produtos = require('../database/Produtos');
-const Users = require('../users/Users');
+const Users = require('../database/Users');
 const Pedidos = require('../database/Pedidos');
 const { where } = require('sequelize');
 
@@ -13,6 +13,7 @@ router.get('/admin', (req,res)=>{
 })
 
 /* -----products ------  */
+
 router.get('/admin/products', (req,res)=>{
   Produtos.findAll().then(products=>{
     res.render('admin/products', {products:products})  
@@ -72,13 +73,14 @@ router.post('/deleteProduct/:id', (req,res)=>{
 
 })
 
-
 router.post('/admin/editProduct', (req,res)=>{
   var {id, title, price, status, image} = req.body;
   res.send('rota do botao precisa ser feita')
 })
 
+
 /*----- criar e remover users --------- */
+
 router.get('/admin/newUsers', (req,res)=>{
   res.render('admin/newUser')
 })
@@ -116,6 +118,7 @@ router.post('/admin/userDelete', (req,res)=>{
   
 })
 
+
 /* ----- cashier -------*/
 
 router.get('/admin/cashier', (req, res)=>{
@@ -126,22 +129,6 @@ router.get('/admin/cashier', (req, res)=>{
   })
 })
 
-
-
-
-/*------kitchen --------- */
-router.get('/kitchen', (req, res)=>{
-  Pedidos.findAll({order:[['status', 'DESC']]}).then((pedidos)=>{
-    res.render('kitchen/main', {pedidos:pedidos})
-  })
-})
-
-router.post('/changeStatus', (req,res)=>{
-  var id = req.body.id;
-  Pedidos.update({status: 'DONE'}, {where:{id:id}}).then(()=>{
-    res.redirect('/kitchen')
-  })
-})
 
 
 module.exports = router;

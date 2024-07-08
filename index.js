@@ -1,14 +1,15 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const adminController = require('./admin/adminController')
-const userController = require('./users/userController')
-
+const adminController = require('./controllers/adminController')
+const userController = require('./controllers/userController')
+const kitchenController = require('./controllers/kitchenController')
+const loginController = require('./controllers/loginController')
 //DB
 const connection = require('./database/database')
 const Produtos = require('./database/Produtos');
 const Pedidos = require('./database/Pedidos');
-const Users = require('./users/Users');
+const Users = require('./database/Users');
 //
 
 app.set('view engine', 'ejs');
@@ -24,34 +25,12 @@ connection.authenticate().then(()=>{
 
 app.use('/', adminController)
 app.use('/', userController)
+app.use('/', kitchenController)
+app.use('/', loginController)
 
-//------login ---------//
-app.get('/', (req,res)=>{
-  res.render('login/login')
-})
 
-app.post('/login', (req,res)=>{
-  var name = req.body.name;
-  var password = req.body.password
 
-  if(name === 'admin'){
-    if(password==='admin'){
-      res.redirect('/admin')
-    }else{
-      res.redirect('/')
-    }
-  }else if(name === 'Kitchen'){
-    if(password==='kitchen'){
-      res.redirect('/kitchen')
-    }else{
-      res.redirect('/')
-    }
-  }else{
-    res.redirect('/')
-  }
-})
-//-------------------//
 
 app.listen(9876, ()=>{
-  console.log('Server ON');
+  console.log('Server on port 9876');
 })
