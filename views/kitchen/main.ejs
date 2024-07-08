@@ -1,16 +1,36 @@
-<table>
-  <thead>
-    <tr>
-      <th>mesa</th>
-      <th>produto</th>
-    </tr>
-  </thead>
-  <tbody>
-   <% pedidos.forEach(element => {%>
-    <tr>
-      <td><%= element.UserId %></td>
-      <td><%= element.ProdutoId %></td>
-    </tr>
-    <%}); %>
-  </tbody>
-</table>
+<%- include('../../views/partials/head.ejs') %>
+
+<br><a href="/"><button class="btn btn-danger">LogOut</button></a>
+
+<div class="container">
+  <br>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>User Id</th>
+        <th>produto</th>
+        <th>Status</th>
+      </tr> 
+    </thead>
+    <tbody>
+     <% pedidos.forEach(element => {%>
+      <tr>
+        <td> id-User</td>
+        <td> nome-do-produto </td>
+        <td><%= element.status  %></td>
+        <td>
+          <form action="/changeStatus"  method="POST">
+            <input type="hidden" name="id" value="<%= element.id %>">
+            <% if(element.status === 'preparing') {%>
+              <button class="btn btn-success">Done</button>
+            <% }%>
+          </form>
+        </td>
+      </tr>
+      <%}); %>
+    </tbody>
+  </table> 
+
+</div>
+
+<%- include('../../views/partials/foot.ejs') %>

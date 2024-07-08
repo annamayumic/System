@@ -1,57 +1,84 @@
 <%- include('../../views/partials/head.ejs') %>
-
-<div class="container">
-  <h3 class="text-center">Mesa: <%= id %></h3><hr><br>
-  <div class="container row flex flex-wrap">
-    <% products.forEach(prod=>{ if(prod.status === true){%>
-      <div class="card mx-3" style="width: 18rem;">
-        <div class="card-header">
-          <h4><%= prod.title %></h4>
+<br><a href="/"><button class="btn btn-danger">LogOut</button></a>
+<main class="d-flex flex-wrap">
+  <div class="container col-8">
+    <h3 class="text-center">Mesa: <%= id %></h3><hr><br>
+    <div class="container row flex flex-wrap">
+      <% products.forEach(prod=>{ if(prod.status === true){%>
+        <div class="card mx-3" style="width: 18rem;">
+          <div class="card-header">
+            <h4><%= prod.title %></h4>
+          </div>
+          <div class="card-body">
+            <img class="card-img-top" src="<%=prod.image%>" alt="" width="100%">
+          </div>
+          <div class="card-footer">
+            <h4 class="">R$ <%= prod.price %></h4>
+            <button class="btn btn-outline-dark" name="<%= prod.title%>" id="<%= prod.id%>"   value="<%= prod.price %>"  onclick="Clicked(this.id, this.name, this.value)">Add</button>
+          </div>
         </div>
-        <div class="card-body">
-          <img class="card-img-top" src="<%=prod.image%>" alt="" width="100%">
-        </div>
-        <div class="card-footer">
-          <h4 class="">R$ <%= prod.price %></h4>
-          <button class="btn btn-outline-dark" value="<%= prod.id %>"  onclick="Clicked(this.value)">Add</button>
-        </div>
-      </div>
-    <%}})  %>
+      <%}})  %>
+    </div><br>
   </div>
-  <div class="container">
-    <div>
-      <h3>Cart</h3>
+  <div class="container col-4">
+    <div class="card"  style="width: 20rem;">
+      <h3 class="card-header">Cart</h3>
       <ul id="cart"></ul>
+      <button class="btn btn-success" type="submit" id="order" value="<%= id %>" onclick="Order(this.value)">Order</button>
+    </div><br><br>
+    <div class="card " style="width: 20rem;">
+      <h3 class="card-header">Ordered products</h3>
+      <ul id="ordered card-body">
+      <% pedidos.forEach(item=>{%>
+        <li>
+          <p><%= item.status %></p>
+        </li>    
+      <% }) %>
+      </ul>
+      <div class="card-footer d-flex justify-content-between">
+        <h3>TOTAL: $$$</h3>
+        <button class="btn btn-dark">FINISH</button>
+      </div>
     </div>
-    <br><br>
-    <form>
-      <button type="submit" id="order" value="<%= id %>" onclick="Order(this.value)">Order</button>
-    </form>
   </div>
-  
-</div>
 
+</main>
 <%- include('../../views/partials/foot.ejs') %>
 <script>
   let currentOrder = [];
+  let currentOrderId = [];
   let order = document.getElementById('order');
-  const ul = document.getElementById('cart')
+  const ul = document.getElementById('cart');
 
+  function Clicked(productId, productName, productPrice){
+    currentOrderId.push(productId)
+    currentOrder.push({productId:productId, productName:productName, productPrice:productPrice})
+    printCart()
+  }
 
-  function Clicked(productId){
-    currentOrder.push(productId)
-    var li = document.createElement('li');
-    li.setAttribute('name', 'id');
-    li.setAttribute('id', productId)
-    li.innerHTML=`${productId}`
+  function printCart(){
+    ul.innerHTML=""
+    currentOrder.forEach(item=>{
+      var li = document.createElement('li');
+      li.setAttribute('name', 'id');
+      li.setAttribute('id', item.productId)
+      li.classList.add('d-flex')
+      li.classList.add('justify-content-between')
+      li.classList.add('p-3')
+      li.innerHTML=`<tr>
+      <td>${item.productName}</td>
+      <td>R$ ${item.productPrice}</td>
+      <td><button class="btn btn-danger" value="${item.productId}" onclick="removeItem(this.value)">remove</button></td>
+      </tr>`
     ul.appendChild(li)
-    console.log(currentOrder)
-    }
+    })
+  }
 
-  //let makeOrder = currentOrder.values()
-  //  order.setAttribute('value', makeOrder)
-  
-
+  function removeItem(id){
+    const index = currentOrder.indexOf(id)
+    var x = currentOrder.splice(index, 1);
+    printCart();
+  }
 
   function Order(id){
     fetch('/user/newOrder/'+id, {
@@ -59,7 +86,7 @@
       headers: {
           'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ array: currentOrder }),
+      body: JSON.stringify({ array: currentOrderId }),
       })
       .then(response => {
           if (!response.ok) {
@@ -73,7 +100,8 @@
       .catch(error => {
           console.error('Erro:', error);
     });
+
+    return currentOrder=[];
   }
-  
   
 </script>

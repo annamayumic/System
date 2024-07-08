@@ -1,17 +1,15 @@
-<br><h3>Cashier</h3><hr><br>
-<table>
-  <thead>
-    <tr>
-      <th>mesa</th>
-      <th>produto</th>
-    </tr>
-  </thead>
-  <tbody>
-   <% pedidos.forEach(element => {%>
-    <tr>
-      <td><%= element.UserId %></td>
-      <td><%= element.ProdutoId %></td>
-    </tr>
-    <%}); %>
-  </tbody>
-</table>
+<%- include('../../views/partials/head.ejs') %>
+
+<br><a href="/admin"><button class="btn btn-dark">back</button></a>
+<br>
+
+<div class="container">
+  <br><h3>Cashier</h3><hr><br>
+  <div class="container">
+    <h3>Mesas</h3><br>
+    <button class="btn btn-dark">mesa 00</button>
+    <button class="btn btn-dark">mesa 00</button>
+    <button class="btn btn-dark">mesa 00</button>
+  </div><br><br>
+</div>
+<%- include('../../views/partials/foot.ejs') %>

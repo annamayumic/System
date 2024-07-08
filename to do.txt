@@ -1,0 +1,7 @@
+3. display cashier -> btn para cada mesa -> view para cada mesa com lista de pedidos e botao de delete pra cada pedido, btn pagar, metodo de pagamento(dinheiro, cartao, pix)
+3. cashier btn mudar status
+4. cashier buscar info do produto com o ID coletado
+ligacao entre tabelas pra disponibilizar os dados dos produtos e users
+
+authenticacao e login
+pegar cache do site

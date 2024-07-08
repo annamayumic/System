@@ -7,10 +7,15 @@ const router = express.Router();
 
 
 router.get('/user/:id', (req,res)=>{
-  var id = req.params.id;
-  Produtos.findAll().then(products=>{
-    res.render('users/main.ejs',{id:id, products:products})
+var id = req.params.id;
+ Produtos.findAll().then(products=>{
+  id=id
+  req.products = products
+ }).then(()=>{
+  Pedidos.findAll().then(pedidos=>{
+    res.render('users/main.ejs',{id:id, products:req.products, pedidos:pedidos})
   })
+ })
   
 })
 

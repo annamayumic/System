@@ -10,6 +10,7 @@ const Produtos = require('./database/Produtos');
 const Pedidos = require('./database/Pedidos');
 const Login= require('./database/Login');
 const Users = require('./users/Users');
+//
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: false}));
@@ -25,12 +26,10 @@ connection.authenticate().then(()=>{
 app.use('/', adminController)
 app.use('/', userController)
 
-
+//------login ---------//
 app.get('/', (req,res)=>{
   res.render('login/login')
 })
-
-
 
 app.post('/login', (req,res)=>{
   var name = req.body.name;
@@ -51,8 +50,8 @@ app.post('/login', (req,res)=>{
   }else{
     res.redirect('/')
   }
-
 })
+//-------------------//
 
 app.listen(9876, ()=>{
   console.log('Server ON');
