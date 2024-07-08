@@ -78,7 +78,7 @@ router.post('/admin/editProduct', (req,res)=>{
   res.send('rota do botao precisa ser feita')
 })
 
-/*----- users --------- */
+/*----- criar e remover users --------- */
 router.get('/admin/newUsers', (req,res)=>{
   res.render('admin/newUser')
 })
@@ -119,8 +119,10 @@ router.post('/admin/userDelete', (req,res)=>{
 /* ----- cashier -------*/
 
 router.get('/admin/cashier', (req, res)=>{
-  Pedidos.findAll().then((pedidos)=>{
-    res.render('admin/cashier', {pedidos:pedidos})
+    Pedidos.findAll({
+      include:[{model: Produtos, as:"Produto"}]
+    }).then((pedidos)=>{
+      res.render('admin/cashier', {pedidos:pedidos})
   })
 })
 

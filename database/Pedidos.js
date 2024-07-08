@@ -15,7 +15,7 @@ const Pedidos = connection.define('Pedidos', {
 Pedidos.belongsTo(Users);
 Users.hasMany(Pedidos);
 
-Pedidos.belongsTo(Produtos)
+Pedidos.belongsTo(Produtos);
 
 //Pedidos.sync({force: true})
 module.exports = Pedidos;

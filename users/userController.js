@@ -2,7 +2,6 @@ const express = require('express');
 const Produtos = require('../database/Produtos');
 const Pedidos = require('../database/Pedidos');
 const { where } = require('sequelize');
-const Login = require('../database/Login');
 const router = express.Router();
 
 

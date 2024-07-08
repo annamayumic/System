@@ -7,9 +7,13 @@
   <br><h3>Cashier</h3><hr><br>
   <div class="container">
     <h3>Mesas</h3><br>
-    <button class="btn btn-dark">mesa 00</button>
-    <button class="btn btn-dark">mesa 00</button>
-    <button class="btn btn-dark">mesa 00</button>
+    <button class="btn btn-dark">MESA 00</button>
+    <button class="btn btn-dark">MESA 00</button>
+    <button class="btn btn-dark">MESA 00</button>
   </div><br><br>
+  <% pedidos.forEach(pedido=>{%>
+    <p><%= pedido.Produto.title %> - <%= pedido.status %></p>
+  <%}) %>
+
 </div>
 <%- include('../../views/partials/foot.ejs') %>

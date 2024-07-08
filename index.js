@@ -8,7 +8,6 @@ const userController = require('./users/userController')
 const connection = require('./database/database')
 const Produtos = require('./database/Produtos');
 const Pedidos = require('./database/Pedidos');
-const Login= require('./database/Login');
 const Users = require('./users/Users');
 //
 

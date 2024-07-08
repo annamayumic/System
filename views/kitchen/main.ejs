@@ -8,6 +8,7 @@
     <thead>
       <tr>
         <th>User Id</th>
+        <th>CreateAt</th>
         <th>produto</th>
         <th>Status</th>
       </tr> 
@@ -15,7 +16,8 @@
     <tbody>
      <% pedidos.forEach(element => {%>
       <tr>
-        <td> id-User</td>
+        <td> <%= element.UserId %></td>
+        <td><%= element.createdAt %></td>
         <td> nome-do-produto </td>
         <td><%= element.status  %></td>
         <td>
@@ -34,3 +36,6 @@
 </div>
 
 <%- include('../../views/partials/foot.ejs') %>
+<script>
+  
+</script>
