@@ -142,7 +142,7 @@ router.get('/admin/cashier', (req, res)=>{
     }).then((pedidos)=>{
       res.render('admin/cashier', {pedidos:pedidos, users:req.users})
     }).catch(err=> res.send(err))
-  })
+  }).catch(err=> console.log(err))
     
 })
 
@@ -160,6 +160,21 @@ router.post('/deleteItemPedido', (req,res)=>{
 
 })
 
+router.post('/endSection/:id', (req,res)=>{
+  var UserId = req.params.id;
+
+  if(UserId!=undefined){
+    if(!isNaN(UserId)){
+  
+      Pedidos.destroy({where:{UserId:UserId}}).then(()=>{
+        console.log('Mesa resetada')
+        res.redirect('/admin/cashier')
+      }).catch(err=>res.send(err))
+
+    }else{console.log('id is not a Number')}
+  }else{console.log('id is undefined')}
+
+})
 
 
 module.exports = router;

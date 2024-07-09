@@ -13,7 +13,7 @@
     <%}) %>
   </div><br><br>
 
-  <div class="card" style="width: 30rem;" >
+  <div class="card" style="width: 30rem;" id="card" >
     <h4 class="text-center" id="tableTitle"></h4>
     <table class="table table-borderless" >
       <thead>
@@ -28,19 +28,35 @@
 
       </tbody>
     </table>
+    <div class="d-flex justify-content-between card-footer" id="divTotal">
+
+    </div>
   </div>
+  <form action="/endSection/${USERId}" method="post"></form>
   
 </div>
 <%- include('../../views/partials/foot.ejs') %>
 <script>
   const tbody = document.getElementById('result');
+  const divTotal = document.getElementById('divTotal');
 
   function selectTable(userId) {
+    divTotal.innerHTML=''
     console.log('clicked')
     tbody.innerHTML=''
+    let foundId = [];
+    let foundprices = [];
+
     const pedidos = <%- JSON.stringify(pedidos) %>;
-    const USERId = document.getElementById(userId).value;
-    const foundId = pedidos.filter(pedido => pedido.UserId == USERId);
+
+    let USERId = document.getElementById(userId).value;
+
+    foundId = pedidos.filter(pedido => pedido.UserId == USERId);
+    foundprices = foundId.map(price => price.Produto.price);
+
+    const initial = 0
+    let total = foundprices.reduce((accumulator, currentValue) => accumulator + currentValue,
+    initial,)
 
     const cardTable = document.getElementById('tableTitle')
     cardTable.innerHTML=`MESA ${USERId}`
@@ -54,9 +70,17 @@
       <td><form action="/deleteItemPedido" method="post">
           <input type="hidden" name="id" value="${item.id}">
           <button class="btn btn-danger">delete</button>
-        </form></td>
+        </form>
+      </td>
      `
     tbody.appendChild(tr)
     })
+    divTotal.innerHTML=`
+    <h4>Total: R$ ${total}</h4>
+    <form action="/endSection/${USERId}" method="post">
+      <button class="btn btn-dark">END SECTION</button>
+    </form>
+    `
+    
   }
 </script>
