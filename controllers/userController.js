@@ -11,10 +11,10 @@ var id = req.params.id;
   id=id
   req.products = products
  }).then(()=>{
-  Pedidos.findAll().then(pedidos=>{
+  Pedidos.findAll({include:[{model:Produtos, as:"Produto"}]}).then(pedidos=>{
     res.render('users/main.ejs',{id:id, products:req.products, pedidos:pedidos})
-  })
- })
+  }).catch(err=>res.send(err))
+ }).catch(err=>res.send(err))
   
 })
 
@@ -36,8 +36,6 @@ router.post('/user/newOrder/:id', (req,res)=>{
 
       res.redirect('/user/:id')
     }).catch(err=>res.send(err))
-    // find Id do produto na lista produtos e puxar o objeto.
-    // colocar o UserId na tabela do pedido
   });
 })
 

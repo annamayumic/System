@@ -4,18 +4,22 @@ const Produtos = require('../database/Produtos');
 const Users = require('../database/Users');
 const Pedidos = require('../database/Pedidos');
 
-
 router.get('/kitchen', (req, res)=>{
-  Pedidos.findAll({order:[['status', 'DESC']]}).then((pedidos)=>{
+  Pedidos.findAll({order:[['status', 'DESC']],include:{model:Produtos, as:'Produto'}}).then((pedidos)=>{
     res.render('kitchen/main', {pedidos:pedidos})
-  })
+  }).catch(err=> res.send(err))
 })
 
 router.post('/changeStatus', (req,res)=>{
   var id = req.body.id;
-  Pedidos.update({status: 'DONE'}, {where:{id:id}}).then(()=>{
-    res.redirect('/kitchen')
-  })
+  if(id!=undefined){
+    Pedidos.update({status: 'DONE'}, {where:{id:id}}).then(()=>{
+      res.redirect('/kitchen')
+    }).catch(err => res.send(err))
+  }else{
+    res.send('id is undefined')
+  }
+  
 })
 
 

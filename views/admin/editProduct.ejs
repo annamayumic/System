@@ -7,7 +7,7 @@
     <form action="/admin/editProduct" method="post" class="form-control">
       <div class="card-body">
         <label for="title">Product Name:</label>
-        <input type="hidden" name="id" value="">
+        <input type="hidden" name="id" value="<%= produtos.id %>">
         <input type="text" name="title" id="title" class="form-control" placeholder="Title" value="<%= produtos.title %>" required><br>
         <label for="price">value:</label>
         <input type="number" step="0.01" name="price" id="price" class="form-control" placeholder="price" required value="<%= produtos.price %>"><br>

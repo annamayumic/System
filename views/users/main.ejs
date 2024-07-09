@@ -9,8 +9,8 @@
           <div class="card-header">
             <h4><%= prod.title %></h4>
           </div>
-          <div class="card-body">
-            <img class="card-img-top" src="<%=prod.image%>" alt="" width="100%">
+          <div class="card-body" >
+            <img class="card-img-top" src="<%=prod.image%>" alt="" width="100%" height="150px">
           </div>
           <div class="card-footer">
             <h4 class="">R$ <%= prod.price %></h4>
@@ -31,7 +31,7 @@
       <ul id="ordered card-body">
       <% pedidos.forEach(item=>{%>
         <li>
-          <p><%= item.status %></p>
+          <p><%= item.ProdutoId %></p>
         </li>    
       <% }) %>
       </ul>
@@ -101,7 +101,8 @@
           console.error('Erro:', error);
     });
 
-    return currentOrder=[];
+    currentOrder=[];
+    printCart()
   }
   
 </script>

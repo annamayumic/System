@@ -18,12 +18,14 @@ router.post('/login', (req,res)=>{
     if(password==='admin'){
       res.redirect('/admin')
     }else{
+      console.log('Wrong Password')
       res.redirect('/')
     }
   }else if(name === 'Kitchen'){
     if(password==='kitchen'){
       res.redirect('/kitchen')
     }else{
+      console.log('Wrong Password')
       res.redirect('/')
     }
   }else{
