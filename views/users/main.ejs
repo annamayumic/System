@@ -1,5 +1,6 @@
 <%- include('../../views/partials/head.ejs') %>
 <br><a href="/"><button class="btn btn-danger">LogOut</button></a>
+
 <main class="d-flex flex-wrap">
   <div class="container col-8">
     <h3 class="text-center">Mesa: <%= id %></h3><hr><br>
@@ -20,30 +21,40 @@
       <%}})  %>
     </div><br>
   </div>
+
   <div class="container col-4">
+
+    <!-- ======== carrinho ======== -->    
     <div class="card"  style="width: 20rem;">
       <h3 class="card-header">Cart</h3>
       <ul id="cart"></ul>
       <button class="btn btn-success" type="submit" id="order" value="<%= id %>" onclick="Order(this.value)">Order</button>
     </div><br><br>
+  
+    <!-- ======== ordered ======== -->    
     <div class="card " style="width: 20rem;">
       <h3 class="card-header">Ordered products</h3>
-      <ul id="ordered card-body">
+      <table id="ordered" class="card-body">
       <% pedidos.forEach(item=>{%>
-        <li>
-          <p><%= item.ProdutoId %></p>
-        </li>    
+        <tr>
+          <td class="p-3"><%= item.Produto.title %></td>
+          <td>R$</td>
+          <td><%= item.Produto.price %></td>
+        </tr>    
       <% }) %>
-      </ul>
+      </table>
       <div class="card-footer d-flex justify-content-between">
-        <h3>TOTAL: $$$</h3>
+        <h3>TOTAL: <%= pedidos.map(pedido=>  pedido.Produto.price).reduce((acc, cur)=> acc+cur, 0) %></h3>
         <button class="btn btn-dark">FINISH</button>
       </div>
     </div>
-  </div>
 
+  </div>
+  
 </main>
+
 <%- include('../../views/partials/foot.ejs') %>
+
 <script>
   let currentOrder = [];
   let currentOrderId = [];
@@ -65,10 +76,12 @@
       li.classList.add('d-flex')
       li.classList.add('justify-content-between')
       li.classList.add('p-3')
-      li.innerHTML=`<tr>
-      <td>${item.productName}</td>
-      <td>R$ ${item.productPrice}</td>
-      <td><button class="btn btn-danger" value="${item.productId}" onclick="removeItem(this.value)">remove</button></td>
+      li.innerHTML=`
+      <tr class="align-items-center">
+        <td><p>${item.productName}</p></td>
+        <td><p>R$</p></td>
+        <td><p>${item.productPrice}</p></td>
+        <td><button class="btn btn-danger" value="${item.productId}" onclick="removeItem(this.value)">remove</button></td>
       </tr>`
     ul.appendChild(li)
     })
