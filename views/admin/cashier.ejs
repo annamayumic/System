@@ -6,17 +6,57 @@
 <div class="container">
   <br><h3>Cashier</h3><hr><br>
   <div class="container">
-    colocar tabela Users e dar loop nos users criando um btn-MESA pra cada user
-    <h3>Mesas</h3><br>
-    <button class="btn btn-dark">MESA 00</button>
+  
+    <h3>Mesas</h3><br>  
+    <% users.forEach(user=>{%>
+      <button class="btn btn-dark" id="<%=user.id%>" value="<%=user.id%>" onclick="selectTable(this.id)">MESA <%=user.id%></button>
+    <%}) %>
   </div><br><br>
-  <% pedidos.forEach(pedido=>{%>
-    <p><%= pedido.UserId %>  - <%= pedido.Produto.title %> - <%= pedido.status %></p>
-    <form action="/deleteItemPedido" method="post">
-      <input type="hidden" name="id" value="<%=pedido.id%>">
-      <button class="btn btn-danger">delete</button>
-    </form>
-  <%}) %>
 
+  <div class="card" style="width: 30rem;" >
+    <h4 class="text-center" id="tableTitle"></h4>
+    <table class="table table-borderless" >
+      <thead>
+        <tr class="card-header">
+          <th>produto</th>
+          <th>status</th>
+          <th>price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="result">
+
+      </tbody>
+    </table>
+  </div>
+  
 </div>
 <%- include('../../views/partials/foot.ejs') %>
+<script>
+  const tbody = document.getElementById('result');
+
+  function selectTable(userId) {
+    console.log('clicked')
+    tbody.innerHTML=''
+    const pedidos = <%- JSON.stringify(pedidos) %>;
+    const USERId = document.getElementById(userId).value;
+    const foundId = pedidos.filter(pedido => pedido.UserId == USERId);
+
+    const cardTable = document.getElementById('tableTitle')
+    cardTable.innerHTML=`MESA ${USERId}`
+    
+    foundId.forEach(item=>{
+    const tr = document.createElement('tr')
+    tr.innerHTML=`
+      <td>${item.Produto.title}</td>
+      <td>${item.status}</td>
+      <td>${item.Produto.price}</td>
+      <td><form action="/deleteItemPedido" method="post">
+          <input type="hidden" name="id" value="${item.id}">
+          <button class="btn btn-danger">delete</button>
+        </form></td>
+     `
+    tbody.appendChild(tr)
+    })
+  }
+</script>

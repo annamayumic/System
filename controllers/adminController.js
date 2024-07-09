@@ -133,12 +133,17 @@ router.post('/admin/userDelete', (req,res)=>{
 /* ----- cashier -------*/
 
 router.get('/admin/cashier', (req, res)=>{
+  Users.findAll().then(users=>{
+    req.users=users
+  }).then(()=>{
     Pedidos.findAll({
       order:[['userId', 'ASC']],
       include:[{model: Produtos, as:"Produto"}]
     }).then((pedidos)=>{
-      res.render('admin/cashier', {pedidos:pedidos})
-  }).catch(err=> res.send(err))
+      res.render('admin/cashier', {pedidos:pedidos, users:req.users})
+    }).catch(err=> res.send(err))
+  })
+    
 })
 
 router.post('/deleteItemPedido', (req,res)=>{
