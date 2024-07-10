@@ -2,6 +2,7 @@ const express = require('express');
 const Produtos = require('../database/Produtos');
 const Pedidos = require('../database/Pedidos');
 const { where } = require('sequelize');
+const Users = require('../database/Users');
 const router = express.Router();
 
 
@@ -18,37 +19,52 @@ var id = req.params.id;
   
 })
 
-router.post('/user/newOrder/:id', (req,res)=>{
-  var userId = req.params.id
-  var array = req.body.array;
+router.post('/user/newOrder/:id', async  (req,res)=>{
+  try {
+    const userId = req.params.id;
+    const array = req.body.array;
 
-  array.forEach(order => {
-    Produtos.findOne({
-      where:{
-        id: order
+    //armazenar as promessas
+    const promises = [];
+    //
+    for (const order of array) {  //para cada item do array
+      const produto = await Produtos.findOne({ //encontra o id do produto que seja igual na tabela produtos
+        where: { id: order }
+      });
+
+      if (produto) { //se id do produto houver na tabela produtos, cria um item na tabela Pedidos
+        const pedido = await Pedidos.create({
+          status: "preparing",
+          UserId: userId,
+          ProdutoId: order
+        });
+        promises.push(pedido); 
+      } else {
+        console.log(`Produto com id ${order} não encontrado.`);
       }
-    }).then(()=>{
-      Pedidos.create({
-        status:"preparing",
-        UserId:userId,
-        ProdutoId: order
-      })
+    }
 
-      res.redirect('/user/:id')
-    }).catch(err=>res.send(err))
-  });
+    // Espera todas as operações de criação de pedido serem concluídas
+    await Promise.all(promises);
+
+    // Redirecionamento após o loop e criação dos pedidos
+    res.redirect("/admin");
+  } catch (err) {
+    console.error('Erro ao processar novos pedidos:', err);
+    res.status(500).send('Erro ao processar novos pedidos.');
+  }
 })
 
 router.get('/users/login', (req,res)=>{
   res.render('login/loginUsers')
 })
 
-router.post('/users/signIn',(req,res)=>{
+router.post('/users/signIn', (req,res)=>{
   var {id, password} = req.body
   console.log(id+password)
 if(id!=undefined){
   if(password!=undefined){
-    Login.findOne({
+    Users.findOne({
         where:{
           id:id,
           password:password
