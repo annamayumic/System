@@ -14,22 +14,23 @@
       </tr> 
     </thead>
     <tbody>
-     <% pedidos.forEach(element => {%>
-      <tr>
-        <td> <%= element.UserId %></td>
-        <td><%= element.createdAt %></td>
-        <td><%= element.Produto.title %></td>
-        <td><%= element.status  %></td>
-        <td>
-          <form action="/changeStatus"  method="POST">
-            <input type="hidden" name="id" value="<%= element.id %>">
-            <% if(element.status === 'preparing') {%>
-              <button class="btn btn-success">Done</button>
-            <% }%>
-          </form>
-        </td>
-      </tr>
-      <%}); %>
+      <% pedidos.forEach(element => { 
+           if (element.Produto) { %> 
+        <tr>
+          <td><%= element.UserId %></td>
+          <td><%= element.createdAt %></td>
+          <td><%= element.Produto.title %></td> 
+          <td><%= element.status %></td>
+          <td>
+            <form action="/changeStatus" method="POST">
+              <input type="hidden" name="id" value="<%= element.id %>">
+              <% if (element.status === 'preparing') { %>
+                <button class="btn btn-success">Done</button>
+              <% } %>
+            </form>
+          </td>
+        </tr>
+      <%  } }); %>
     </tbody>
   </table> 
 

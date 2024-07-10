@@ -6,18 +6,21 @@ const Users = require('../database/Users');
 const router = express.Router();
 
 
-router.get('/user/:id', (req,res)=>{
-var id = req.params.id;
- Produtos.findAll().then(products=>{
-  id=id
-  req.products = products
- }).then(()=>{
-  Pedidos.findAll({include:[{model:Produtos, as:"Produto"}]}).then(pedidos=>{
-    res.render('users/main.ejs',{id:id, products:req.products, pedidos:pedidos})
-  }).catch(err=>res.send(err))
- }).catch(err=>res.send(err))
-  
-})
+router.get('/user/:id', (req, res) => {
+  var id = req.params.id;
+  Produtos.findAll().then(products => {
+    req.products = products;
+    return Pedidos.findAll({
+      order: [['createdAt', 'ASC']],
+      include: [{ model: Produtos, as: "Produto" }]
+    });
+  }).then(pedidos => {
+    res.render('users/main.ejs', { id: id, products: req.products, pedidos: pedidos });
+  }).catch(err => {
+    console.error(err);
+    res.send(err);
+  });
+});
 
 router.post('/user/newOrder/:id', async  (req,res)=>{
   try {

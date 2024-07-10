@@ -32,23 +32,23 @@
     </div><br><br>
   
     <!-- ======== ordered ======== -->    
-    <div class="card " style="width: 20rem;">
+    <div class="card" style="width: 20rem;">
       <h3 class="card-header">Ordered products</h3>
       <table id="ordered" class="card-body">
-      <% pedidos.forEach(item=>{%>
-        <tr>
-          <td class="p-3"><%= item.Produto.title %></td>
-          <td>R$</td>
-          <td><%= item.Produto.price %></td>
-        </tr>    
-      <% }) %>
+        <% pedidos.forEach(item => { 
+             if (item.Produto) { %> <!-- Verifica se item.Produto não é nulo -->
+          <tr>
+            <td class="p-3"><%= item.Produto.title %></td>
+            <td>R$</td>
+            <td><%= item.Produto.price %></td>
+          </tr>
+        <%  } }) %>
       </table>
       <div class="card-footer d-flex justify-content-between">
-        <h3>TOTAL: <%= pedidos.map(pedido=>  pedido.Produto.price).reduce((acc, cur)=> acc+cur, 0) %></h3>
+        <h3>TOTAL: <%= pedidos.map(pedido => pedido.Produto ? pedido.Produto.price : 0).reduce((acc, cur) => acc + cur, 0) %></h3> <!-- Verifica se pedido.Produto não é nulo antes de acessar o preço -->
         <button class="btn btn-dark">FINISH</button>
       </div>
     </div>
-
   </div>
   
 </main>

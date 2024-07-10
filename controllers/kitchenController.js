@@ -4,11 +4,17 @@ const Produtos = require('../database/Produtos');
 const Users = require('../database/Users');
 const Pedidos = require('../database/Pedidos');
 
-router.get('/kitchen', (req, res)=>{
-  Pedidos.findAll({order:[['status', 'DESC']],include:{model:Produtos, as:'Produto'}}).then((pedidos)=>{
-    res.render('kitchen/main', {pedidos:pedidos})
-  }).catch(err=> res.send(err))
-})
+router.get('/kitchen', (req, res) => {
+  Pedidos.findAll({
+    order: [['status', 'DESC']],
+    include: [{ model: Produtos, as: 'Produto' }]
+  }).then(pedidos => {
+    res.render('kitchen/main', { pedidos: pedidos });
+  }).catch(err => {
+    console.error('Erro ao buscar pedidos:', err);
+    res.status(500).send('Erro ao buscar pedidos');
+  });
+});
 
 router.post('/changeStatus', (req,res)=>{
   var id = req.body.id;
