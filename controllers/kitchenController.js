@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Produtos = require('../database/Produtos');
-const Users = require('../database/Users');
 const Pedidos = require('../database/Pedidos');
 const kitchenAuth = require('../middlewares/kitchenAuth')
 
