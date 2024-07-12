@@ -90,4 +90,8 @@ if(id!=undefined){
 
 })
 
+router.get('/users/logout', (req,res)=>{
+  req.session.users = undefined;
+  res.redirect('/')
+})
 module.exports = router;

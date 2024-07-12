@@ -7,7 +7,14 @@ router.get('/', (req,res)=>{
   res.render('login/login')
 })
 
-
+router.get('/admin/logout', (req,res)=>{
+  req.session.admin = undefined;
+  res.redirect('/')
+})
+router.get('/kitchen/logout', (req,res)=>{
+  req.session.kitchen = undefined;
+  res.redirect('/')
+})
 // POST
 
 router.post('/login', (req,res)=>{
