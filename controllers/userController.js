@@ -59,7 +59,7 @@ router.post('/user/newOrder/:id', async  (req,res)=>{
   }
 })
 
-router.get('/users/login',usersAuth, (req,res)=>{
+router.get('/users/login', (req,res)=>{
   res.render('login/loginUsers')
 })
 
