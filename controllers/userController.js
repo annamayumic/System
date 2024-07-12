@@ -4,9 +4,10 @@ const Pedidos = require('../database/Pedidos');
 const { where } = require('sequelize');
 const Users = require('../database/Users');
 const router = express.Router();
+const usersAuth = require('../middlewares/usersAuth')
 
 
-router.get('/user/:id', (req, res) => {
+router.get('/user/:id',usersAuth, (req, res) => {
   var id = req.params.id;
   Produtos.findAll().then(products => {
     req.products = products;
@@ -58,13 +59,13 @@ router.post('/user/newOrder/:id', async  (req,res)=>{
   }
 })
 
-router.get('/users/login', (req,res)=>{
+router.get('/users/login',usersAuth, (req,res)=>{
   res.render('login/loginUsers')
 })
 
 router.post('/users/signIn', (req,res)=>{
   var {id, password} = req.body
-  console.log(id+password)
+  
 if(id!=undefined){
   if(password!=undefined){
     Users.findOne({
@@ -73,6 +74,9 @@ if(id!=undefined){
           password:password
         }
       }).then(()=>{
+        req.session.users = {
+          id:id
+        }
         res.redirect("/user/"+id)
       })
   }else{

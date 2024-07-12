@@ -3,8 +3,9 @@ const router = express.Router();
 const Produtos = require('../database/Produtos');
 const Users = require('../database/Users');
 const Pedidos = require('../database/Pedidos');
+const kitchenAuth = require('../middlewares/kitchenAuth')
 
-router.get('/kitchen', (req, res) => {
+router.get('/kitchen',kitchenAuth, (req, res) => {
   Pedidos.findAll({
     order: [['status', 'DESC']],
     include: [{ model: Produtos, as: 'Produto' }]

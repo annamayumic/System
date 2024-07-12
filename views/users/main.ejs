@@ -36,7 +36,7 @@
       <h3 class="card-header">Ordered products</h3>
       <table id="ordered" class="card-body">
         <% pedidos.forEach(item => { 
-             if (item.Produto) { %> <!-- Verifica se item.Produto não é nulo -->
+             if (item.Produto) { %> 
           <tr>
             <td class="p-3"><%= item.Produto.title %></td>
             <td>R$</td>

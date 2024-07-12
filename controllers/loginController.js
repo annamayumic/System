@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const Users = require('../database/Users')
 // GET
 
 router.get('/', (req,res)=>{
@@ -11,26 +11,36 @@ router.get('/', (req,res)=>{
 // POST
 
 router.post('/login', (req,res)=>{
-  var name = req.body.name;
-  var password = req.body.password
+  var {name, password} = req.body;
 
-  if(name === 'admin'){
-    if(password==='admin'){
-      res.redirect('/admin')
-    }else{
-      console.log('Wrong Password')
-      res.redirect('/')
-    }
-  }else if(name === 'Kitchen'){
-    if(password==='kitchen'){
-      res.redirect('/kitchen')
-    }else{
-      console.log('Wrong Password')
-      res.redirect('/')
-    }
-  }else{
-    res.redirect('/')
-  }
+  if(name!=undefined){
+    if(password!=undefined){
+      if(name === 'admin'){
+        if(password==='admin'){
+          req.session.admin = {
+            name: name
+          }
+          res.redirect('/admin')
+        }else{
+          console.log('Wrong Password')
+          res.redirect('/')
+        }
+      }else if(name === 'Kitchen'){
+        if(password==='kitchen'){
+          req.session.kitchen = {
+            name: name}
+          res.redirect('/kitchen')
+        }else{
+          console.log('Wrong Password')
+          res.redirect('/')
+        }
+      } else{
+       console.log('not found')
+       res.redirect('/')
+      }
+    }else{console.log('password undefined'); res.redirect('/')}
+  }else{console.log('name undefined'); res.redirect('/')}
+  
 })
 
 

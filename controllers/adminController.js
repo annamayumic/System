@@ -4,8 +4,9 @@ const Produtos = require('../database/Produtos');
 const Users = require('../database/Users');
 const Pedidos = require('../database/Pedidos');
 const { where } = require('sequelize');
+const adminAuth = require('../middlewares/adminAuth')
 
-router.get('/admin', (req,res)=>{
+router.get('/admin', adminAuth, (req,res)=>{
   Users.findAll().then(users=>{
     res.render('admin/home.ejs', {users:users})
   }).catch(err=>res.send(err))
@@ -14,18 +15,18 @@ router.get('/admin', (req,res)=>{
 
 /* -----products ------  */
 
-router.get('/admin/products', (req,res)=>{
+router.get('/admin/products', adminAuth,(req,res)=>{
   Produtos.findAll().then(products=>{
     res.render('admin/products', {products:products})  
   }).catch(err=>res.send(err))
 
 })
 
-router.get('/admin/products/new', (req,res)=>{
+router.get('/admin/products/new',adminAuth, (req,res)=>{
   res.render('admin/newProduct')
 })
 
-router.get('/admin/editProduct/:id', (req,res)=>{
+router.get('/admin/editProduct/:id',adminAuth, (req,res)=>{
   var id= req.params.id;
   
   Produtos.findOne({where:{id:id}}).then(produtos=>{  
@@ -93,7 +94,7 @@ router.post('/admin/editProduct', (req,res)=>{
 
 /*----- criar e remover users --------- */
 
-router.get('/admin/newUsers', (req,res)=>{
+router.get('/admin/newUsers',adminAuth, (req,res)=>{
   res.render('admin/newUser')
 })
 
@@ -132,7 +133,7 @@ router.post('/admin/userDelete', (req,res)=>{
 
 /* ----- cashier -------*/
 
-router.get('/admin/cashier', (req, res)=>{
+router.get('/admin/cashier', adminAuth,(req, res)=>{
   Users.findAll().then(users=>{
     req.users=users
   }).then(()=>{
